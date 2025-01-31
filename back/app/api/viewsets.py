@@ -2,8 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from ..models import Professor
-from .serializer import ProfessorSerializer
+from .serializer import ProfessorSerializer, UsuarioSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth.models import User
 
 class VizualizarProfessores(APIView):
     permission_classes = [IsAuthenticated]
@@ -62,5 +63,17 @@ class AtualizarProfessor(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+class CadastroUsuario(APIView):
+    def post(self, request):
+        try: 
+            username= request.data.get('username'),
+            password=request.data.get('password')
+
+            user = User.objects.create_user(username=username, password=password)
+            return Response(status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 
         

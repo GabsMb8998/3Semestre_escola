@@ -5,30 +5,77 @@ import InputLogin from '../components/Login/InputLogin'
 import iconUser from "../images/icon-user.svg"
 import iconSenha from "../images/icon-senha.svg"
 
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Titulo from '../components/Login/Titulo'
+import LabelTitle from '../components/Login/LabelTitle'
+import Button from '../components/Login/Button'
+
 function Login(){
+
+    const [token, setToken] = useState('')
+    const [usuario, setUsuario] = useState('')
+    const [senha, setSenha] = useState('')
+
+    const navigate = useNavigate()
+
+    function pegarToken(usuario,senha){
+        fetch('http://127.0.0.1:8000/api/token', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: usuario,
+                password: senha
+            })
+        }).then(response=>{
+            if (!response.ok){
+                throw new Error('Failed to fetch token: ' + response.statusText);
+            }
+            return response.json()
+        }).then(data=>{
+            setToken(data.access)
+            localStorage.setItem('token', data.access)
+          
+        })
+
+    }
+    
+    // atualiza o token para evitar os dois cliques 
+    useEffect(()=>{
+        if (!token == ''){
+            navigate('/home')
+        }
+
+    },[token])
+
     return(
         <div className='flex justify-center items-center h-screen'>
             <div className=" w-[550px] h-[70%] sombra-container-login rounded-[8px] p-22 text-[1.8rem] font-semibold">
                 
                 {/* texto inicial  */}
                 <div className='flex flex-col gap-y-3'>
-                    <h1>SING IN</h1>
-                    <p className='text-[1rem] font-normal text-[#9FA7A2] '>Digite seu usuário e senha</p>
+                    <Titulo title={'SING IN'}/>
+                    <LabelTitle label={'Digite seu usuário e senha'}/> 
                 </div>
 
                 {/* inputs  */}
                 <div className='flex flex-col gap-y-8 mt-12'>
-                    <InputLogin placeholder={'usuário'} icon={iconUser}/>
-                    <InputLogin placeholder={'senha'} icon={iconSenha}/>
+                    <InputLogin placeholder={'usuário'} icon={iconUser} type={setUsuario}/>
+                    <InputLogin placeholder={'senha'} icon={iconSenha} type={setSenha}/>
                 </div>
 
+                {/* botao Entrar */}
                 <div className='flex justify-center my-14'>
-                    <button className='bg-[#A9D2C5] hover:bg-[#9ccabc] hover:scale-[1.02] duration-300  font-medium text-white text-[1.2rem] px-16 py-3 rounded-[6px]'>Entrar</button>
+                    <Button label={'Entrar'} onClick={pegarToken(usuario,senha)}/>
                 </div>
 
+                {/* ir para cadastro  */}
                 <div className='mt-14 flex justify-center'>
-                    <p className='text-[0.9rem] font-normal text-[#9FA7A2]'>Não possui uma conta? <span className='text-[#8BB9AC] font-medium'>Faça seu cadastro</span></p>
+                    <p className='text-[0.9rem] font-normal text-[#9FA7A2]' >Não possui uma conta? <span className='text-[#8BB9AC] font-medium hover:text-[#667772] hover:font-semibold duration-150 underline underline-offset-4' onClick={()=>navigate('/cadastro')}>Faça seu cadastro</span></p>
                 </div>
+
             </div>
         </div>
     )
