@@ -67,12 +67,13 @@ class AtualizarProfessor(APIView):
 class CadastroUsuario(APIView):
     def post(self, request):
         try: 
-            username= request.data.get('username'),
+            username= request.data.get('username')
             password=request.data.get('password')
 
             user = User.objects.create_user(username=username, password=password)
-            return Response(status=status.HTTP_200_OK)
+            return Response({"message": "Usuário criado com sucesso!"}, status=status.HTTP_201_CREATED)
         except:
+            # print(username, password)
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 

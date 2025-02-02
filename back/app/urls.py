@@ -12,7 +12,7 @@ urlpatterns  = [
     path('api/deletar/<int:pk>', DeletarProfessor.as_view()),
     path('api/atualizar/<int:pk>', AtualizarProfessor.as_view()),
     path('api/token', TokenObtainPairView.as_view()),
-    path('api/token/refresh', TokenRefreshView.as_view),
+    path('api/token/refresh', TokenRefreshView.as_view()),
     path('api/cadastro', CadastroUsuario.as_view())
 
 ]

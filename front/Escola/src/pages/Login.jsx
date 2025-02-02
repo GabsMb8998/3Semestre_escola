@@ -11,6 +11,9 @@ import Titulo from '../components/Login/Titulo'
 import LabelTitle from '../components/Login/LabelTitle'
 import Button from '../components/Login/Button'
 
+import { ToastContainer, } from 'react-toastify';
+import { notifySuccess, notifyError } from '../components/Toasts'
+
 function Login(){
 
     const [token, setToken] = useState('')
@@ -20,6 +23,7 @@ function Login(){
     const navigate = useNavigate()
 
     function pegarToken(usuario,senha){
+
         fetch('http://127.0.0.1:8000/api/token', {
             method: "POST",
             headers: {
@@ -31,6 +35,7 @@ function Login(){
             })
         }).then(response=>{
             if (!response.ok){
+                notifyError('Usuário ou senha incorretos. Tente novamente')
                 throw new Error('Failed to fetch token: ' + response.statusText);
             }
             return response.json()
@@ -68,7 +73,20 @@ function Login(){
 
                 {/* botao Entrar */}
                 <div className='flex justify-center my-14'>
-                    <Button label={'Entrar'} onClick={pegarToken(usuario,senha)}/>
+                    <Button label={'Entrar'} onClick={()=>pegarToken(usuario,senha)}/>
+                    <ToastContainer
+                        className={"editar-toast"}
+                        position="top-center"
+                        autoClose={2000}
+                        hideProgressBar
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss={false}
+                        draggable
+                        pauseOnHover={false}
+                        theme="dark"
+                       />
                 </div>
 
                 {/* ir para cadastro  */}

@@ -4,6 +4,9 @@ import LabelTitle from '../components/Login/LabelTitle'
 import InputLogin from '../components/Login/InputLogin'
 import Button from '../components/Login/Button'
 
+import { ToastContainer, } from 'react-toastify';
+import { notifySuccess, notifyError } from '../components/Toasts'
+
 import { useState } from 'react'
 
 // icons 
@@ -17,23 +20,40 @@ function Cadastro(){
     const [senha, setSenha] = useState('')
     const navigate = useNavigate()
 
+
+
+
     function Cadastrar(username, password){
-        fetch('http://127.0.0.1:8000/api/cadastro', {
-            method: 'POST', 
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password
+
+        if (username === "" || password === "" ){
+            notifyError('Você precisa preencher os campos')
+            throw new Error('Campos não foram preenchidos');
+        }else if (password.length < 4) {
+            notifyError('A senha precisa ter mais de 4 caracteres')
+        }else if (username.length < 6){
+            notifyError('O usuário deve ter ao menos 6 caracteres')
+        }
+        else{
+            fetch('http://127.0.0.1:8000/api/cadastro', {
+                method: 'POST', 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            }).then(response=>{
+                if(!response.ok){
+                    notifyError('Esse usuário já existe')
+                    throw new Error('Failed to fetch token: ' + response.statusText);
+                }
+                console.log('cadastro feito com sucesso')
+                notifySuccess()
+                navigate('/')
+                return response.json()
             })
-        }).then(response=>{
-            if(!response.ok){
-                throw new Error('Failed to fetch token: ' + response.statusText);
-            }
-            console.log('cadastro feito com sucesso')
-            return response.json()
-        })
+        }
     }
 
     return(
@@ -52,7 +72,23 @@ function Cadastro(){
 
                  {/* botao Entrar */}
                  <div className='flex justify-center my-14'>
-                    <Button label={'Cadastrar'} onClick={Cadastrar(usuario, senha)} />
+                    <Button label={'Cadastrar'} onClick={()=>{
+                        Cadastrar(usuario, senha)
+                        
+                    }} />
+                    <ToastContainer
+                        className={"editar-toast"}
+                        position="top-center"
+                        autoClose={2000}
+                        hideProgressBar
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss={false}
+                        draggable
+                        pauseOnHover={false}
+                        theme="dark"
+                       />
                 </div>
 
                 <div className='mt-14 flex justify-center'>
