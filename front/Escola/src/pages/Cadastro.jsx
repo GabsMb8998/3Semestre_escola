@@ -20,9 +20,6 @@ function Cadastro(){
     const [senha, setSenha] = useState('')
     const navigate = useNavigate()
 
-
-
-
     function Cadastrar(username, password){
 
         if (username === "" || password === "" ){
