@@ -3,10 +3,15 @@ import { useEffect, useState,  } from "react";
 import Sidebar from "../components/SideBar/Sidebar";
 import Header from "../components/Header/Header";
 import { data } from "react-router-dom";
+import VizualizarProfessores from "../components/Crud/Get/VizualizarProfessores";
+import AdicionarProfessor from "../components/Crud/Post/AdicionarProfessor";
 
 function Home(){
     let [loading, setLoading] = useState(false);
+
     const token = localStorage.getItem('token')
+    const [selected, setSelected] = useState('vizualizar')
+
 
     useEffect(()=>{
         setLoading(true)
@@ -16,19 +21,7 @@ function Home(){
         },2500)
     }, [])
 
-    useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/professores', {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        }).then(response=>{
-            if(!response.ok){
-                throw new Error(`Erro: ${response.status}`);
-            }
-            return response.json()
-        }).then(data=>console.log(data))
-    },[])
+ 
 
     return(
 
@@ -50,7 +43,18 @@ function Home(){
                     <div className="flex">
                         <Sidebar/>
                         <div className="w-full">
-                            <Header/>
+                            <Header selected={selected} setSelected={setSelected}/>
+
+                            {selected === 'vizualizar' ? (
+                                <VizualizarProfessores token={token}/>
+
+                            ): selected === 'adicionar' ? (
+                                <AdicionarProfessor token={token}/>
+                            ) : (
+                                <div>
+
+                                </div>
+                            )}
                         </div>
 
             

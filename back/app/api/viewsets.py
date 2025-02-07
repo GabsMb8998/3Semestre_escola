@@ -1,10 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from ..models import Professor
 from .serializer import ProfessorSerializer, UsuarioSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class VizualizarProfessores(APIView):
     permission_classes = [IsAuthenticated]
@@ -77,4 +78,5 @@ class CadastroUsuario(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-        
+class AdicionarImagensProfessores(viewsets.ModelViewSet):
+    queryset = Professor.objects.order_by('')

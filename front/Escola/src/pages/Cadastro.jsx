@@ -2,7 +2,7 @@ import '../index.css'
 import Titulo from '../components/Login/Titulo'
 import LabelTitle from '../components/Login/LabelTitle'
 import InputLogin from '../components/Login/InputLogin'
-import Button from '../components/Login/Button'
+import ButtonLogin from '../components/Login/ButtonLogin'
 
 import { ToastContainer, } from 'react-toastify';
 import { notifySuccess, notifyError } from '../components/Toasts'
@@ -69,7 +69,7 @@ function Cadastro(){
 
                  {/* botao Entrar */}
                  <div className='flex justify-center my-14'>
-                    <Button label={'Cadastrar'} onClick={()=>{
+                    <ButtonLogin label={'Cadastrar'} onClick={()=>{
                         Cadastrar(usuario, senha)
                         
                     }} />

@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Titulo from '../components/Login/Titulo'
 import LabelTitle from '../components/Login/LabelTitle'
-import Button from '../components/Login/Button'
+import ButtonLogin from '../components/Login/ButtonLogin'
 
 import { ToastContainer, } from 'react-toastify';
 import { notifySuccess, notifyError } from '../components/Toasts'
@@ -73,7 +73,7 @@ function Login(){
 
                 {/* botao Entrar */}
                 <div className='flex justify-center my-14'>
-                    <Button label={'Entrar'} onClick={()=>pegarToken(usuario,senha)}/>
+                    <ButtonLogin label={'Entrar'} onClick={()=>pegarToken(usuario,senha)}/>
                     <ToastContainer
                         className={"editar-toast"}
                         position="top-center"
