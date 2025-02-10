@@ -31,10 +31,10 @@ function VizualizarProfessores({token}){
             <TituloCrud title={'Professores'}/>
 
             {/* professores  */}
-            <ul className="my-16 flex flex-col gap-y-20 w-[750px]">
+            <ul className="my-20 flex flex-col gap-y-20 w-[750px]">
 
                 {professores.map((professor, index)=>(
-                    <GetProfessor key={index}  nome={professor.nome} ni={professor.ni} email={professor.email} cargo={professor.cargo}/>
+                    <GetProfessor key={index}  nome={professor.nome} ni={professor.ni} email={professor.email} cargo={professor.cargo} imagem={professor.imagem}/>
                 ))}
 
                 {/* {professores.map((professor)=>{

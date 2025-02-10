@@ -78,5 +78,5 @@ class CadastroUsuario(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class AdicionarImagensProfessores(viewsets.ModelViewSet):
-    queryset = Professor.objects.order_by('')
+# class AdicionarImagensProfessores(viewsets.ModelViewSet):
+#     queryset = Professor.objects.order_by('')

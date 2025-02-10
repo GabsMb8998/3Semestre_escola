@@ -61,7 +61,7 @@ function Login(){
                 
                 {/* texto inicial  */}
                 <div className='flex flex-col gap-y-3'>
-                    <Titulo title={'SING IN'}/>
+                    <Titulo title={'SIGN IN'}/>
                     <LabelTitle label={'Digite seu usuário e senha'}/> 
                 </div>
 

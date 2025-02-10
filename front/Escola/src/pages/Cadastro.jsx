@@ -57,7 +57,7 @@ function Cadastro(){
         <div className='flex justify-center items-center h-screen'>
             <div className=" w-[550px] h-[70%] sombra-container-login rounded-[8px] p-22 text-[1.8rem] font-semibold">
                 <div className='flex flex-col gap-y-3'>
-                        <Titulo title={'SING UP'}/>
+                        <Titulo title={'SIGN UP'}/>
                         <LabelTitle label={'Crie um usuário e senha'}/> 
                 </div>
 

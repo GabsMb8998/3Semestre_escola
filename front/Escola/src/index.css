@@ -26,3 +26,13 @@
   -moz-box-shadow: 0px 0px 17.8px 4px rgba(0,0,0,0.05);
   box-shadow: 0px 0px 17.8px 4px rgba(0,0,0,0.05);
 }
+
+.button-abrir-modal {
+  background-color: #94c0b2;
+  border: none;
+  padding: 10px 25px 10px 25px;
+}
+
+.button-abrir-modal:hover {
+  background-color: #739e90;
+}
