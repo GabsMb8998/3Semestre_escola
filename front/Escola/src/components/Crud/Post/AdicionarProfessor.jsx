@@ -4,12 +4,21 @@ import Input from "../Input"
 import '../../../index.css'
 import Button2 from "../../Button"
 import { useState } from "react"
+import 'react-responsive-modal/styles.css';
+
+// import "../../App.jsx"
 
 import { ToastContainer, } from 'react-toastify';
 import { notifySuccess, notifyError } from '../../Toasts'
+import { Modal } from 'react-responsive-modal';
 
-import Button from 'react-bootstrap/Button';
-import ModalMy from '../../ModalMy';
+
+import Button from '../../Button';
+import TitleModal from "../../Modal/TitleModal"
+import ConteudoModal from "../../Modal/ConteudoModal"
+import ButtonCancelar from "../../ButtonCancelar"
+import ButtonConfirmacaoModal from "../../ButtonConfirmacaoModal"
+
 
 function AdicionarProfessor({token}){
 
@@ -19,12 +28,9 @@ function AdicionarProfessor({token}){
     const [cargo, SetCargo] = useState('')
     const [imagem, setImagem] = useState('')
 
+    const [contentModal, setContentModal] = useState([])
+
     const[prevImagem, setPrevImagem] = useState('')
-
-
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true)
 
     let formData = new FormData()
 
@@ -35,44 +41,49 @@ function AdicionarProfessor({token}){
         setPrevImagem(URL.createObjectURL(file))
     };
 
+    const [open, setOpen] = useState(false);
+
+    function onOpenModal (){
+        setOpen(true);
+    }
+    const onCloseModal = () => setOpen(false);
+
+
+    function VerificacaoInputs (){
+        if (nome === ''){
+            notifyError('Você precisa preencher todos os campos')
+            throw new Error(`O campo nome é obrigatório`);
+        }
+        if (ni === ''){
+            notifyError('Você precisa preencher todos os campos')
+            throw new Error(`O campo ni é obrigatório`);
+        }
+        if (email === ''){
+            notifyError('Você precisa preencher todos os campos')
+            throw new Error(`O campo email é obrigatório`);
+        }
+        if (cargo === ''){
+            notifyError('Você precisa preencher todos os campos')
+            throw new Error(`O campo cargo é obrigatório`)
+        }
+        
+        if (imagem === ''){
+            notifyError('Você precisa preencher todos os campos')
+            throw new Error(`O campo imagem é obrigatório`);
+        }
+    
+        setContentModal([nome, ni, email, cargo])
+        onOpenModal()
+    }
 
     function adicionarProfessor(){
 
-            if (nome !== ''){
-                formData.append('nome', nome)
-            }else {
-                notifyError('Você precisa preencher todos os campos')
-                throw new Error(`O campo nome é obrigatório`);
-            }
-            if (ni !== ''){
-                formData.append('ni', ni)
-            }else {
-                notifyError('Você precisa preencher todos os campos')
-                throw new Error(`O campo ni é obrigatório`);
-            }
-            if (email !== ''){
-                formData.append('email', email)
-            }else {
-                notifyError('Você precisa preencher todos os campos')
-                throw new Error(`O campo email é obrigatório`);
-            }
-            if (cargo !== ''){
-                formData.append('cargo', cargo)
-            }else {
-                notifyError('Você precisa preencher todos os campos')
-                throw new Error(`O campo cargo é obrigatório`);
-            }
-            if (imagem !== ''){
-                console.log(imagem)
-                formData.append('imagem', imagem)
-            }else {
-                notifyError('Você precisa preencher todos os campos')
-                throw new Error(`O campo imagem é obrigatório`);
-            }
-        
-        
-        
-
+        formData.append('email', email)
+        formData.append('cargo', cargo)
+        formData.append('imagem', imagem)
+        formData.append('nome', nome)
+        formData.append('ni', ni)
+        console.log('adicionado')
 
         fetch('http://127.0.0.1:8000/api/adicionar', {
             method: "POST",
@@ -89,6 +100,7 @@ function AdicionarProfessor({token}){
                 if (email.includes("@gmail.com") === false){
                     notifyError('Email inválido. Tente novamente')
                 }
+
                 throw new Error(`Erro: ${response.status}`);
             }
 
@@ -103,6 +115,8 @@ function AdicionarProfessor({token}){
             // caso sucesso 
             notifySuccess('Professor adicionado com Sucesso')
         })
+
+        onCloseModal()
     }
 
     return(
@@ -134,20 +148,35 @@ function AdicionarProfessor({token}){
                     </div>
 
                     <div className="my-10">
-                        <Button className="bg-[#A9D2C5] button-abrir-modal" onClick={handleShow}>
+                        <Button className="bg-[#A9D2C5] button-abrir-modal" onClick={()=>{
+                            VerificacaoInputs()
+                        }} label={'Adicionar'}>
                             Adicionar Professor
                         </Button>
                     </div>
                 </div>
+
+                <Modal open={open} onClose={onCloseModal} center styles={{
+                    modal: {
+                        borderRadius: '8px',
+                        padding: '30px',
+                        width: '600px'
+
+                    }
+                }}>
+                    <TitleModal label={'Gostaria de adicionar o professor?'}/>
+
+                    <div className="mt-2">
+                        <ConteudoModal nome={nome} ni={ni} email={email} cargo={cargo}/> 
+                    </div>
+
+                    <div className="mt-14 flex justify-end gap-x-4"> 
+                        <ButtonCancelar onClick={onCloseModal}/>
+                        <ButtonConfirmacaoModal label={'Sim'} onClick={()=>adicionarProfessor()}/>
+                    </div>
+                </Modal>
             </div>
 
-            <ModalMy
-                show={show}
-                handleClose={handleClose}
-                handleConfirm={() => { adicionarProfessor(); handleClose; }}
-                title="Confirmar Cadastro"
-                body="Deseja adicionar o professor com os dados fornecidos?"
-            />
 
             {/* necessario para o toast funcionar  */}
             <ToastContainer

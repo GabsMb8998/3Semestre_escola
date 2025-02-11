@@ -6,6 +6,9 @@ from .serializer import ProfessorSerializer, UsuarioSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.shortcuts import get_object_or_404
+from django_filters import rest_framework as filters
+from .filters import FiltroProfessorNome
 
 class VizualizarProfessores(APIView):
     permission_classes = [IsAuthenticated]
@@ -14,6 +17,14 @@ class VizualizarProfessores(APIView):
         professores = Professor.objects.all()
         serializer = ProfessorSerializer(professores, many=True)
         return Response(serializer.data)
+    
+class VizualizarProfessoresId(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, pk):
+        professor = get_object_or_404(Professor, pk=pk)
+        serializer = ProfessorSerializer(professor)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
 
 class AdicionarProfessor(APIView):
@@ -78,5 +89,11 @@ class CadastroUsuario(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-# class AdicionarImagensProfessores(viewsets.ModelViewSet):
-#     queryset = Professor.objects.order_by('')
+# Filtros 
+
+class ProfessorByNome(APIView):
+
+    def get(self,request):
+        filter = FiltroProfessorNome(request.GET, queryset=Professor.objects.all())
+        serializer = ProfessorSerializer(filter.qs, many=True)
+        return  Response(serializer.data) 

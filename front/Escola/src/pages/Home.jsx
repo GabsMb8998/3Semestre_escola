@@ -2,9 +2,10 @@ import SyncLoader   from "react-spinners/SyncLoader";
 import { useEffect, useState,  } from "react";
 import Sidebar from "../components/SideBar/Sidebar";
 import Header from "../components/Header/Header";
-import { data } from "react-router-dom";
+
 import VizualizarProfessores from "../components/Crud/Get/VizualizarProfessores";
 import AdicionarProfessor from "../components/Crud/Post/AdicionarProfessor";
+import DeletarProfessor from "../components/Crud/Delete/DeletarProfessor";
 
 function Home(){
     let [loading, setLoading] = useState(false);
@@ -50,10 +51,10 @@ function Home(){
 
                             ): selected === 'adicionar' ? (
                                 <AdicionarProfessor token={token}/>
+                            ) : selected === 'deletar' ? (
+                                <DeletarProfessor token={token}/>
                             ) : (
-                                <div>
-
-                                </div>
+                                <div></div>
                             )}
                         </div>
 

@@ -3,12 +3,10 @@ import arrowGet from "./arrowGet.svg"
 import DadoProfessor from "./DadoProfessor"
 import { use } from "react"
 
-function GetProfessor({nome, img, ni, email, cargo, imagem, }){
+function GetProfessor({nome, ni, email, cargo, imagem, }){
 
     const [arrow, setArrow] = useState(false)
     const [previewImg, SetPreviewImg] = useState(imagem)
-
-
 
     return(
         <li className="flex tems-center justify-center flex-col">
@@ -16,7 +14,7 @@ function GetProfessor({nome, img, ni, email, cargo, imagem, }){
             <div className="flex justify-between" onClick={()=>{setArrow(!arrow)}}>
 
                 <div className="flex gap-x-10 items-center">
-                    <img className="w-16 h-16 bg-[#D9D9D9] rounded-xl " src={`http://127.0.0.1:8000/${previewImg}`} alt="" />
+                    <img className="w-24 h-24 bg-[#D9D9D9] rounded-full " src={`http://127.0.0.1:8000/${previewImg}`} alt="" />
 
                     <p className="text-[#7C7C7C] text-2xl">{nome}</p>
                 </div>
