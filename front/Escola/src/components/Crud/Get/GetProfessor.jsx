@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import arrowGet from "./arrowGet.svg"
 import DadoProfessor from "./DadoProfessor"
 import { use } from "react"
+import ButtonCrud from "../ButtonCrud"
 
-function GetProfessor({nome, ni, email, cargo, imagem, }){
+function GetProfessor({nome, ni, email, cargo, imagem, TemAcao, labelButton, iconButton, acaoButton, idProfessor, setId}){
 
     const [arrow, setArrow] = useState(false)
     const [previewImg, SetPreviewImg] = useState(imagem)
@@ -23,13 +24,20 @@ function GetProfessor({nome, ni, email, cargo, imagem, }){
 
             </div>
 
-            {arrow && 
+            {arrow && (
                 <div className={`text-[#ADADAD] px-20 font-light mx-6 my-3 gap-y-1 flex flex-col`}>
-                    <DadoProfessor label={ni} item={'ni'}/>
-                    <DadoProfessor label={email} item={'email'}/>
-                    <DadoProfessor label={cargo} item={'cargo'}/>
+                    <DadoProfessor label={ni} item={'ni'} />
+                    <DadoProfessor label={email} item={'email'} />
+                    <DadoProfessor label={cargo} item={'cargo'} />
+
+                    {TemAcao && (
+                        <div>
+                            <ButtonCrud onClick={acaoButton} label={'deletar'} icon={iconButton} nomeProfessor={nome} idProfessor={idProfessor}/> 
+                            {/* <ButtonCrud label={labelButton} icon={iconButton} onClick={acaoButton} id={id} nomeProfessor={nome}/>  */}
+                        </div>
+                    )}
                 </div>
-            }
+            )}
         </li>
     )
 }

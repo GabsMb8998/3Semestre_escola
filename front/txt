@@ -5,6 +5,7 @@
 // -colocar animcação para aparecer informações no get
 // - procurar django filters
 // - adicionar botao de voltar no delete 
+// - criar parde de professor nao encontrado no delete 
 
 // <!-- colocar modal 
 // https://react-responsive-modal.leopradel.com/#installation -->

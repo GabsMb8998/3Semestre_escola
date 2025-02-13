@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
-export const notifySuccess = () => {
-    toast.success('Cadastro feito com Sucesso!',{
+export const notifySuccess = (message) => {
+    toast.success(message,{
             position: "top-center",
             autoClose: 2000,
             hideProgressBar: true,

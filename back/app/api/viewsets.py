@@ -9,6 +9,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from .filters import FiltroProfessorNome
+from django_filters.views import FilterView
 
 class VizualizarProfessores(APIView):
     permission_classes = [IsAuthenticated]
@@ -94,6 +95,8 @@ class CadastroUsuario(APIView):
 class ProfessorByNome(APIView):
 
     def get(self,request):
+        model= Professor
+        filterset_class = FiltroProfessorNome
         filter = FiltroProfessorNome(request.GET, queryset=Professor.objects.all())
         serializer = ProfessorSerializer(filter.qs, many=True)
         return  Response(serializer.data) 

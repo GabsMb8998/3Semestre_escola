@@ -83,7 +83,6 @@ function AdicionarProfessor({token}){
         formData.append('imagem', imagem)
         formData.append('nome', nome)
         formData.append('ni', ni)
-        console.log('adicionado')
 
         fetch('http://127.0.0.1:8000/api/adicionar', {
             method: "POST",
@@ -96,14 +95,11 @@ function AdicionarProfessor({token}){
 
             // tratativas de erros 
             if(!response.ok){
-
                 if (email.includes("@gmail.com") === false){
                     notifyError('Email inválido. Tente novamente')
                 }
-
                 throw new Error(`Erro: ${response.status}`);
             }
-
             if (!(Number(cargo) == cargo && !isNaN(cargo))){
                 notifyError('Cargo precisa ser um valor numérico')    
                 throw new Error(`Erro: ${response.status}`);
@@ -175,6 +171,7 @@ function AdicionarProfessor({token}){
                         <ButtonConfirmacaoModal label={'Sim'} onClick={()=>adicionarProfessor()}/>
                     </div>
                 </Modal>
+
             </div>
 
 
@@ -192,6 +189,9 @@ function AdicionarProfessor({token}){
                 pauseOnHover={false}
                 theme="dark"
                 />
+
+    
+
         </section>
     )
 }

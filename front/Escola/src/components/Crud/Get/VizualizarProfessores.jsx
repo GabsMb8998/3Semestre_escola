@@ -7,8 +7,6 @@ function VizualizarProfessores({token}){
 
     const [professores, setProfessores] = useState([])
 
-    console.log(professores, 'haha')
-
     useEffect(()=>{
         fetch('http://127.0.0.1:8000/api/professores', {
             headers: {
@@ -22,7 +20,6 @@ function VizualizarProfessores({token}){
             return response.json()
         }).then(data=>{
             setProfessores(data)
-            console.log(data,'data')
             })
         },[])
 
