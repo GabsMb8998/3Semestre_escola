@@ -10,6 +10,8 @@ from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from .filters import FiltroProfessorNome
 from django_filters.views import FilterView
+import os
+from django.conf import settings
 
 class VizualizarProfessores(APIView):
     permission_classes = [IsAuthenticated]
@@ -51,6 +53,13 @@ class DeletarProfessor(APIView):
         try:
             print(pk)
             professor = Professor.objects.get(pk=pk)
+            caminho_imagem = os.path.join(settings.MEDIA_ROOT, professor.imagem.name)
+            if os.path.exists(caminho_imagem):
+                os.remove(caminho_imagem)
+
+                pasta_imagem = os.path.dirname(caminho_imagem)
+                if not os.listdir(pasta_imagem):
+                    os.rmdir(pasta_imagem)
 
         except Professor.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)

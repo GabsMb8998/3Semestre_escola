@@ -50,6 +50,12 @@ function DeletarProfessor({token}){
             
         },1500)
     }
+
+    useEffect(()=>{
+        if (professores.length === 0){
+            setResultado(false)
+        }
+    }, [resultado, professores])
     
 
     function PesquisaPorId(){
@@ -65,11 +71,14 @@ function DeletarProfessor({token}){
             return response.json()
 
         }).then(data=>{
-            setProfessores(data)
+      
 
-            if (professores.length == 0){
+            if (data.length == 0){
                 setNotFound(true)
+                setResultado(false)
             }else {
+                setProfessores(data)
+                setNotFound(false)
                 setResultado(true)
             }
 
@@ -91,6 +100,7 @@ function DeletarProfessor({token}){
 
             notifySuccess(`Professor ${nomeProfessor} removido com Sucesso`)
             onCloseModal()
+            setResultado(false)
             PesquisaPorId()
          
         })
@@ -128,7 +138,7 @@ function DeletarProfessor({token}){
                 <NotFound/>
             )}
 
-            {!resultado && !notFound ? (
+            {(!resultado && !notFound) ? (
                 <div>
 
                     <TituloCrud title={'Deletar Professor'}/>    
@@ -193,7 +203,6 @@ function DeletarProfessor({token}){
                 pauseOnHover={false}
                 theme="dark"
                 />
-
                     </div>
                 )
             }
