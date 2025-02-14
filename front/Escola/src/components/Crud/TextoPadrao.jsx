@@ -1,6 +1,6 @@
-function TextoPadrao({content}){
+function TextoPadrao({content, tamanho}){
     return(
-        <p className="text-[#898989] text-xl ">{content}</p>
+        <p className={`${tamanho? 'text-[1.4rem]': 'text-3xl'}  text-[#898989]`}>{content}</p>
     )
 }
 

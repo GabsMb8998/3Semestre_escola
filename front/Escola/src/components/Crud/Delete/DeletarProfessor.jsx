@@ -2,9 +2,12 @@ import TextoPadrao from "../textoPadrao"
 import TituloCrud from "../TituloCrud"
 import Input from "../Input"
 import Button from "../../Button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import GetProfessor from "../Get/GetProfessor"
+
+// icons 
 import iconDeletar from "./icon-trash.svg"
+import iconBack from "../../icons/icon-back.svg"
 
 import { ToastContainer, } from 'react-toastify';
 import { notifySuccess, notifyError } from '../../Toasts'
@@ -14,7 +17,11 @@ import TitleModal from "../../Modal/TitleModal"
 import ConteudoModalOutros from "../../Modal/ConteudoModalOutros"
 import ButtonCancelar from "../../ButtonCancelar"
 import ButtonConfirmacaoModal from "../../ButtonConfirmacaoModal"
-import { use } from "react"
+import SyncLoader   from "react-spinners/SyncLoader";
+import NotFound from "../NotFound"
+
+
+
 
 function DeletarProfessor({token}){
 
@@ -25,18 +32,28 @@ function DeletarProfessor({token}){
     const [open, setOpen] = useState(false);
     const [nome, setNome] = useState('')
 
-    const onCloseModal = () => {
-        setOpen(false);
-        
-    }
+    const [notFound, setNotFound] = useState(false)
+
+    let [loading, setLoading] = useState(false);
+
+    const onCloseModal = () => {setOpen(false)}
     const onOpenModal = (idProfessor,nomeProfessor) => {
         setId(idProfessor)
         setNome(nomeProfessor)
         setOpen(true)
     };
 
-    console.log(id, id)
+    function carregando(){
+        setLoading(true)
+        setTimeout(()=>{
+            setLoading(false)
+            
+        },1500)
+    }
+    
+
     function PesquisaPorId(){
+        carregando()
         fetch(`http://127.0.0.1:8000/api/filtros/professor/?nome=${valorInput}`, {
             headers: { 
                 "Content-Type": "application/json",
@@ -49,7 +66,15 @@ function DeletarProfessor({token}){
 
         }).then(data=>{
             setProfessores(data)
-            setResultado(true)
+
+            if (professores.length == 0){
+                setNotFound(true)
+            }else {
+                setResultado(true)
+            }
+
+            console.log(notFound, 'not found')
+            console.log(resultado, 'resultado')
         })
     }
 
@@ -67,18 +92,49 @@ function DeletarProfessor({token}){
             notifySuccess(`Professor ${nomeProfessor} removido com Sucesso`)
             onCloseModal()
             PesquisaPorId()
+         
         })
     }
 
 
     return(
-        <section className="px-28 py-20 mx-64">
-            <TituloCrud title={'Deletar Professor'}/>
+        <section className="px-28 py-16 mx-64">
 
-            {!resultado ? (
+            {
+                loading ? (
+                    <div className="w-full h-[70vh] flex justify-center items-center">
+                        <SyncLoader 
+                            color={"#93BFB2"}
+                            loading={loading}
+                            size={20}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"/>
+                    </div>
+                ) : (
+
+                    <div>
+                    {(resultado || notFound) && (
+                    <div className="mb-10">
+                        <img className="cursor-pointer " src={iconBack} alt=""  onClick={()=>{
+                            setResultado(false)
+                            notFound && setNotFound(false)
+                            }}/>   
+                    </div>
+            )}
+
+      
+
+            {notFound && (
+                <NotFound/>
+            )}
+
+            {!resultado && !notFound ? (
                 <div>
-                    <div className="mt-14 w-[450px] gap-y-7 flex flex-col">
-                        <TextoPadrao content={'insira o ID ou o nome do professor'}/>
+
+                    <TituloCrud title={'Deletar Professor'}/>    
+
+                    <div className="mt-10 w-[450px] gap-y-7 flex flex-col">
+                        <TextoPadrao content={'insira o ID ou o nome do professor'} tamanho={true}/>
                         <Input placeholder={'ex. : Lindomar Batistão'} setDado={setValorInput} type={'text'}/>
                     </div>
 
@@ -86,8 +142,9 @@ function DeletarProfessor({token}){
                         <Button label={'Procurar'} onClick={PesquisaPorId}/>
                     </div>  
                 </div>
-            ):(
+            ) : resultado ?  (
                 <div className="mt-14">
+
                     <TextoPadrao content={`Resultado para a pesquisa: ${valorInput}`}/>
 
                     <div className="mt-16 flex flex-col gap-y-20">
@@ -99,6 +156,8 @@ function DeletarProfessor({token}){
                         }
                     </div>
                 </div>
+            ):(
+                <div></div>
             )
             }
 
@@ -135,6 +194,11 @@ function DeletarProfessor({token}){
                 theme="dark"
                 />
 
+                    </div>
+                )
+            }
+
+            
 
         </section>
     )
