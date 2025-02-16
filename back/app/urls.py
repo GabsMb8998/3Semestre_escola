@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . import views
-from app.api.viewsets import VizualizarProfessores,AdicionarProfessor, DeletarProfessor, AtualizarProfessor,CadastroUsuario, VizualizarProfessoresId, ProfessorByNome
+from app.api.viewsets import VizualizarProfessores,AdicionarProfessor, DeletarProfessor, AtualizarProfessor,CadastroUsuario, VizualizarProfessoresId, ProfessorByNome, LoginUser
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView
@@ -18,5 +18,6 @@ urlpatterns  = [
     path('api/token/refresh', TokenRefreshView.as_view()),
     path('api/cadastro', CadastroUsuario.as_view()),
     path('api/filtros/professor/', ProfessorByNome.as_view()),
+    path('api/login', LoginUser.as_view()),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

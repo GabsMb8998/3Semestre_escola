@@ -144,3 +144,11 @@ SIMPLE_JWT = {
 
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
 MEDIA_URL = '/media/'
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', 
+]
+
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db' 

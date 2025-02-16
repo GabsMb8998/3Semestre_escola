@@ -13,6 +13,9 @@ from django_filters.views import FilterView
 import os
 from django.conf import settings
 
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+
 class VizualizarProfessores(APIView):
     permission_classes = [IsAuthenticated]
     
@@ -109,3 +112,16 @@ class ProfessorByNome(APIView):
         filter = FiltroProfessorNome(request.GET, queryset=Professor.objects.all())
         serializer = ProfessorSerializer(filter.qs, many=True)
         return  Response(serializer.data) 
+
+class LoginUser(APIView):
+    def post(self, request):
+        form = AuthenticationForm(request, data=request.POST)
+        
+        print(form, 'esse é o forma')
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+
+            return Response(status=status.HTTP_201_CREATED)
+        
+        return Response(status=status.HTTP_404_NOT_FOUND)

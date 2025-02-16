@@ -20,6 +20,8 @@ function Login(){
     const [usuario, setUsuario] = useState('')
     const [senha, setSenha] = useState('')
 
+    const [isAthenticated, setIsAuthenticated] = useState(false)
+
     const navigate = useNavigate()
 
     function pegarToken(usuario,senha){

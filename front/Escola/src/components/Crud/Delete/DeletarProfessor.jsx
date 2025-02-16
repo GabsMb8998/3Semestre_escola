@@ -47,16 +47,8 @@ function DeletarProfessor({token}){
         setLoading(true)
         setTimeout(()=>{
             setLoading(false)
-            
-        },1500)
+        },1000)
     }
-
-    useEffect(()=>{
-        if (professores.length === 0){
-            setResultado(false)
-        }
-    }, [resultado, professores])
-    
 
     function PesquisaPorId(){
         carregando()
@@ -76,37 +68,35 @@ function DeletarProfessor({token}){
             if (data.length == 0){
                 setNotFound(true)
                 setResultado(false)
+
             }else {
                 setProfessores(data)
                 setNotFound(false)
                 setResultado(true)
             }
-
-            console.log(notFound, 'not found')
-            console.log(resultado, 'resultado')
         })
     }
 
-    function deletarProfessor(idProfessor, nomeProfessor){
-        fetch(`http://127.0.0.1:8000/api/deletar/${idProfessor}`,{
+    function deletarProfessor(idProfessor, nomeProfessor) {
+        fetch(`http://127.0.0.1:8000/api/deletar/${idProfessor}`, {
             method: 'DELETE',
             headers: { 
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`}
-        }).then(response=>{
-            if(!response.ok) {
+        }).then(response => {
+            if (!response.ok) {
                 throw new Error(`Erro: ${response.status}`);
             }
-
-            notifySuccess(`Professor ${nomeProfessor} removido com Sucesso`)
-            onCloseModal()
-            setResultado(false)
-            PesquisaPorId()
-         
-        })
+            notifySuccess(`Professor ${nomeProfessor} removido com Sucesso`);
+            onCloseModal();
+        });
+    
+        if (professores.length === 1) {
+            setResultado(false);
+            setNotFound(false); 
+            carregando()
+        }
     }
-
-
     return(
         <section className="px-28 py-16 mx-64">
 
@@ -127,14 +117,12 @@ function DeletarProfessor({token}){
                     <div className="mb-10">
                         <img className="cursor-pointer " src={iconBack} alt=""  onClick={()=>{
                             setResultado(false)
-                            notFound && setNotFound(false)
+                            setNotFound(false)
                             }}/>   
                     </div>
             )}
 
-      
-
-            {notFound && (
+            {notFound === true && (
                 <NotFound/>
             )}
 
@@ -206,8 +194,6 @@ function DeletarProfessor({token}){
                     </div>
                 )
             }
-
-            
 
         </section>
     )
