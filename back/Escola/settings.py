@@ -146,9 +146,9 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'mediafiles')
 MEDIA_URL = '/media/'
 
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend', 
-]
+# AUTHENTICATION_BACKENDS = [
+#         'api.backends.EmailUsernameBackend'
+# ]
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db' 

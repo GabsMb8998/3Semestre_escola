@@ -12,6 +12,7 @@ from .filters import FiltroProfessorNome
 from django_filters.views import FilterView
 import os
 from django.conf import settings
+import json
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
@@ -114,14 +115,21 @@ class ProfessorByNome(APIView):
         return  Response(serializer.data) 
 
 class LoginUser(APIView):
-    def post(self, request):
-        form = AuthenticationForm(request, data=request.POST)
-        
-        print(form, 'esse é o forma')
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
+    def post(self, request, *args, **kwards):
 
-            return Response(status=status.HTTP_201_CREATED)
-        
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+        user = authenticate(request, username=username, password=password)
+   
+        if user is not None:
+            return Response({
+            'user': {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email
+            }
+        }, status=status.HTTP_200_OK)
+ 
+    
         return Response(status=status.HTTP_404_NOT_FOUND)

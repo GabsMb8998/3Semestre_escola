@@ -7,12 +7,17 @@ import VizualizarProfessores from "../components/Crud/Get/VizualizarProfessores"
 import AdicionarProfessor from "../components/Crud/Post/AdicionarProfessor";
 import DeletarProfessor from "../components/Crud/Delete/DeletarProfessor";
 
+import { useLocation } from 'react-router-dom';
+
 function Home(){
     let [loading, setLoading] = useState(false);
+    const location = useLocation();
+    const {user} = location.state || {}
 
     const token = localStorage.getItem('token')
     const [selected, setSelected] = useState('vizualizar')
 
+    console.log(user.user.username, 'ahsvdha')
 
     useEffect(()=>{
         setLoading(true)
@@ -42,7 +47,7 @@ function Home(){
                     </div>
                 ) : (
                     <div className="flex">
-                        <Sidebar/>
+                        <Sidebar username={user.user.username}/>
                         <div className="w-full">
                             <Header selected={selected} setSelected={setSelected}/>
 

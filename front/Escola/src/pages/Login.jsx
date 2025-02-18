@@ -6,7 +6,7 @@ import iconUser from "../images/icon-user.svg"
 import iconSenha from "../images/icon-senha.svg"
 
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { data, useNavigate } from 'react-router-dom'
 import Titulo from '../components/Login/Titulo'
 import LabelTitle from '../components/Login/LabelTitle'
 import ButtonLogin from '../components/Login/ButtonLogin'
@@ -20,11 +20,36 @@ function Login(){
     const [usuario, setUsuario] = useState('')
     const [senha, setSenha] = useState('')
 
+    const [user, setUser] = useState('')
+
     const [isAthenticated, setIsAuthenticated] = useState(false)
 
     const navigate = useNavigate()
 
-    function pegarToken(usuario,senha){
+    function login(usuario, senha){
+        fetch('http://127.0.0.1:8000/api/login',{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: usuario,
+                password: senha
+            })
+        }).then(response=>{
+            if(!response.ok){
+                notifyError('Usuário ou senha incorretos. Tente novamente')
+                throw new Error('Failed to fetch token: ' + response.statusText);
+            }
+            return response.json()
+        }).then(data=>{
+            // setUser(data.user)
+            pegarToken(usuario, senha, data)
+     
+        })
+    }
+
+    function pegarToken(usuario,senha, teste){
 
         fetch('http://127.0.0.1:8000/api/token', {
             method: "POST",
@@ -37,25 +62,29 @@ function Login(){
             })
         }).then(response=>{
             if (!response.ok){
+           
                 notifyError('Usuário ou senha incorretos. Tente novamente')
                 throw new Error('Failed to fetch token: ' + response.statusText);
             }
             return response.json()
         }).then(data=>{
+            setIsAuthenticated(true)
             setToken(data.access)
             localStorage.setItem('token', data.access)
+            navigate(`/home`, {state: {user: teste}})
           
         })
 
     }
     
     // atualiza o token para evitar os dois cliques 
-    useEffect(()=>{
-        if (!token == ''){
-            navigate('/home')
-        }
+    // useEffect(()=>{
+    //     console.log(user, 'jasdhja')
+    //     if (!token == ''){
+    //         navigate(`/home`, {state: {user: user}})
+    //     }
 
-    },[token])
+    // },[token])
 
     return(
         <div className='flex justify-center items-center h-screen'>
@@ -75,7 +104,7 @@ function Login(){
 
                 {/* botao Entrar */}
                 <div className='flex justify-center my-14'>
-                    <ButtonLogin label={'Entrar'} onClick={()=>pegarToken(usuario,senha)}/>
+                    <ButtonLogin label={'Entrar'} onClick={()=>login(usuario,senha)}/>
                     <ToastContainer
                         className={"editar-toast"}
                         position="top-center"
