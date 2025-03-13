@@ -71,25 +71,38 @@ class DeletarProfessor(APIView):
         professor.delete()
         return Response(status=status.HTTP_200_OK)
     
+# class AtualizarProfessor(APIView):
+
+#     permission_classes = [IsAuthenticated]
+
+#     def put(self,request,pk):
+        
+#         try:
+#             professor = Professor.objects.get(pk=pk)
+#         except:
+#             return Response (status=status.HTTP_404_NOT_FOUND)
+        
+#         serializer = ProfessorSerializer(professor, data=request.data)
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+        
+#         return Response(status=status.HTTP_404_NOT_FOUND)
+
 class AtualizarProfessor(APIView):
+    def get_teacher(self,pk):
+        return Professor.objects.get(pk=pk)
 
-    permission_classes = [IsAuthenticated]
-
-    def put(self,request,pk):
-        
-        try:
-            professor = Professor.objects.get(pk=pk)
-        except:
-            return Response (status=status.HTTP_404_NOT_FOUND)
-        
-        serializer = ProfessorSerializer(professor, data=request.data)
-
+    def patch(self, request, pk):
+        professor = self.get_teacher(pk)
+        serializer = ProfessorSerializer(professor, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(status=status.HTTP_200_OK)
         
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
+
 class CadastroUsuario(APIView):
     def post(self, request):
         try: 

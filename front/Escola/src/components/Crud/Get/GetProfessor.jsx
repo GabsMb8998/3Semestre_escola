@@ -32,7 +32,7 @@ function GetProfessor({nome, ni, email, cargo, imagem, TemAcao, labelButton, ico
 
                     {TemAcao && (
                         <div>
-                            <ButtonCrud onClick={acaoButton} label={'deletar'} icon={iconButton} nomeProfessor={nome} idProfessor={idProfessor}/> 
+                            <ButtonCrud onClick={acaoButton} label={labelButton} icon={iconButton} nomeProfessor={nome} idProfessor={idProfessor}/> 
                             {/* <ButtonCrud label={labelButton} icon={iconButton} onClick={acaoButton} id={id} nomeProfessor={nome}/>  */}
                         </div>
                     )}

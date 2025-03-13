@@ -8,6 +8,8 @@ import AdicionarProfessor from "../components/Crud/Post/AdicionarProfessor";
 import DeletarProfessor from "../components/Crud/Delete/DeletarProfessor";
 
 import { useLocation } from 'react-router-dom';
+import Update from "../components/Crud/Update/Update";
+import InformationUpdate from "../components/Crud/Update/InformationUpdate";
 
 function Home(){
     let [loading, setLoading] = useState(false);
@@ -16,6 +18,9 @@ function Home(){
 
     const token = localStorage.getItem('token')
     const [selected, setSelected] = useState('vizualizar')
+
+    const [informationsUpdate,setInformationUpdate] = useState(false) 
+    const [infoUpdate, setInfoUpdate] = useState('')
 
     console.log(user.user.username, 'ahsvdha')
 
@@ -27,6 +32,7 @@ function Home(){
         },2500)
     }, [])
 
+    console.log(selected)
  
 
     return(
@@ -58,8 +64,13 @@ function Home(){
                                 <AdicionarProfessor token={token}/>
                             ) : selected === 'deletar' ? (
                                 <DeletarProfessor token={token}/>
-                            ) : (
-                                <div></div>
+                            ) : selected=== 'atualizar' && (
+                
+                                (informationsUpdate)? 
+
+                                // logica para trocar de pesquisa para pagina onde contem as informações para serem atualizadas
+                                <InformationUpdate token={token} infoUpdate={infoUpdate}/> : <Update token={token} setInfoUpdate={setInfoUpdate} setInformationUpdate={setInformationUpdate} informationUpdate={informationsUpdate}/>
+                             
                             )}
                         </div>
 

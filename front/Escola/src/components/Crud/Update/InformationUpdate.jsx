@@ -20,19 +20,20 @@ import ButtonCancelar from "../../ButtonCancelar"
 import ButtonConfirmacaoModal from "../../ButtonConfirmacaoModal"
 
 
-function AdicionarProfessor({token}){
+function InformationUpdate({token, infoUpdate}){
 
-    const [nome, setNome] = useState('')
+    const [nome, setNome] = useState(infoUpdate)
     const [ni, setNi] = useState('')
     const [email, SetEmail] = useState('')
     const [cargo, SetCargo] = useState('')
     const [imagem, setImagem] = useState('')
 
     const [contentModal, setContentModal] = useState([])
+    console.log(nome, 'nome')
 
     const[prevImagem, setPrevImagem] = useState('')
 
-    let formData = new FormData()
+    // let formData = new FormData()
 
     const handleFileChange = (e) => {
 
@@ -48,77 +49,13 @@ function AdicionarProfessor({token}){
     }
     const onCloseModal = () => setOpen(false);
 
-
-    function VerificacaoInputs (){
-        if (nome === ''){
-            notifyError('Você precisa preencher todos os campos')
-            throw new Error(`O campo nome é obrigatório`);
-        }
-        if (ni === ''){
-            notifyError('Você precisa preencher todos os campos')
-            throw new Error(`O campo ni é obrigatório`);
-        }
-        if (email === ''){
-            notifyError('Você precisa preencher todos os campos')
-            throw new Error(`O campo email é obrigatório`);
-        }
-        if (cargo === ''){
-            notifyError('Você precisa preencher todos os campos')
-            throw new Error(`O campo cargo é obrigatório`)
-        }
-        
-        if (imagem === ''){
-            notifyError('Você precisa preencher todos os campos')
-            throw new Error(`O campo imagem é obrigatório`);
-        }
+        // onCloseModal()
     
-        setContentModal([nome, ni, email, cargo])
-        onOpenModal()
-    }
-
-    function adicionarProfessor(){
-
-        formData.append('email', email)
-        formData.append('cargo', cargo)
-        formData.append('imagem', imagem)
-        formData.append('nome', nome)
-        formData.append('ni', ni)
-
-        fetch('http://127.0.0.1:8000/api/adicionar', {
-            method: "POST",
-            headers:     
-                {
-                "Authorization": `Bearer ${token}`
-            }, 
-            body: formData
-        }).then(response=>{
-
-            // tratativas de erros 
-            if(!response.ok){
-                if (email.includes("@gmail.com") === false){
-                    notifyError('Email inválido. Tente novamente')
-                }
-                throw new Error(`Erro: ${response.status}`);
-            }
-            if (!(Number(cargo) == cargo && !isNaN(cargo))){
-                notifyError('Cargo precisa ser um valor numérico')    
-                throw new Error(`Erro: ${response.status}`);
-
-            }else if (Number(cargo) > 3 || Number(cargo) < 1){
-                notifyError('Cargo é somente entre 1 e 3')
-                throw new Error(`Erro: ${response.status}`);
-            }
-            // caso sucesso 
-            notifySuccess('Professor adicionado com Sucesso')
-        })
-
-        onCloseModal()
-    }
 
     return(
         <section className="mx-64 px-28 py-20">
 
-            <TituloCrud title={'Adicionar Professor'}/>
+            <TituloCrud title={'Atualizar Professor'}/>
 
             {/* upload imagem  */}
             <div className="flex justify-between gap-x-28">
@@ -151,7 +88,8 @@ function AdicionarProfessor({token}){
                         </Button>
                     </div>
                 </div>
-
+                    
+                {/* modal  */}
                 <Modal open={open} onClose={onCloseModal} center styles={{
                     modal: {
                         borderRadius: '8px',
@@ -190,10 +128,8 @@ function AdicionarProfessor({token}){
                 theme="dark"
                 />
 
-    
-
         </section>
     )
 }
 
-export default AdicionarProfessor
+export default InformationUpdate

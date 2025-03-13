@@ -22,6 +22,7 @@ const router = createBrowserRouter([
     path: "/cadastro",
     element: <Cadastro/>
   },
+  
 
 ])
 

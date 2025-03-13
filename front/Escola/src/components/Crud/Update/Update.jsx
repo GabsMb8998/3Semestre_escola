@@ -6,8 +6,8 @@ import { useState, useEffect } from "react"
 import GetProfessor from "../Get/GetProfessor"
 
 // icons 
-import iconDeletar from "./icon-trash.svg"
-import iconBack from "../../icons/icon-back.svg"
+import iconEdit from "./iconEdit.svg"
+// import iconBack from "../../icons/icon-back.svg"
 
 import { ToastContainer, } from 'react-toastify';
 import { notifySuccess, notifyError } from '../../Toasts'
@@ -23,12 +23,13 @@ import NotFound from "../NotFound"
 
 
 
-function Update({token}){
+function DeletarProfessor({token,setInformationUpdate, informationUpdate, setInfoUpdate}){
 
     const [valorInput, setValorInput] = useState('') 
     const [professores, setProfessores] = useState('')
-    const [id, setId] = useState('')
     const [resultado, setResultado] = useState(false)
+
+    const [id, setId] = useState('')
     const [open, setOpen] = useState(false);
     const [nome, setNome] = useState('')
 
@@ -36,6 +37,8 @@ function Update({token}){
 
     let [loading, setLoading] = useState(false);
 
+    
+    console.log(informationUpdate)
     const onCloseModal = () => {setOpen(false)}
     const onOpenModal = (idProfessor,nomeProfessor) => {
         setId(idProfessor)
@@ -115,7 +118,7 @@ function Update({token}){
                     <div>
                     {(resultado || notFound) && (
                     <div className="mb-10">
-                        <img className="cursor-pointer " src={iconBack} alt=""  onClick={()=>{
+                        <img className="cursor-pointer " alt=""  onClick={()=>{
                             setResultado(false)
                             setNotFound(false)
                             }}/>   
@@ -149,7 +152,10 @@ function Update({token}){
                         {     
                             professores.map((professor, index)=>(
                                 <GetProfessor key={index} nome={professor.nome} ni={professor.ni} cargo={professor.cargo} email={professor.email} imagem={professor.imagem}
-                                 TemAcao={true} labelButton={'deletar'} iconButton={iconDeletar} acaoButton={onOpenModal} idProfessor={professor.id} />     
+                                 TemAcao={true} labelButton={'atualizar'} iconButton={iconEdit} acaoButton={()=>{
+                                    setInformationUpdate(!informationUpdate)
+                                    setInfoUpdate(professores)
+                                }} idProfessor={professor.id} />     
                             ))
                         }
                     </div>
@@ -157,27 +163,8 @@ function Update({token}){
             ):(
                 <div></div>
             )
+            
             }
-
-                <Modal open={open} onClose={onCloseModal} center styles={{
-                    modal: {
-                        borderRadius: '8px',
-                        padding: '30px',
-                        width: '600px'
-                    }
-                }}>
-                    <TitleModal label={'Gostaria de deletar o professor?'}/>
-
-                    <div className="mt-2">
-                        <ConteudoModalOutros conteudo={`Após deletar um professor não será possivel  recuperá-lo`}/> 
-                    </div>
-
-                    <div className="mt-14 flex justify-end gap-x-4"> 
-                        <ButtonCancelar onClick={onCloseModal}/>
-                        <ButtonConfirmacaoModal label={'Sim'} onClick={()=>deletarProfessor(id, nome)}/>
-                    </div>
-                </Modal>
-
                 <ToastContainer
                 className={"editar-toast px-10"}
                 position="top-center"
@@ -199,4 +186,4 @@ function Update({token}){
     )
 }
 
-export default Update
+export default DeletarProfessor
