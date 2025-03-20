@@ -1,4 +1,4 @@
-import TituloCrud from "../TituloCrud"
+import TituloCrud from "../../TituloCrud"
 import GetProfessor from "./GetProfessor"
 import { useEffect, useState } from "react"
 

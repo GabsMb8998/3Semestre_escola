@@ -3,13 +3,16 @@ import { useEffect, useState,  } from "react";
 import Sidebar from "../components/SideBar/Sidebar";
 import Header from "../components/Header/Header";
 
-import VizualizarProfessores from "../components/Crud/Get/VizualizarProfessores";
-import AdicionarProfessor from "../components/Crud/Post/AdicionarProfessor";
-import DeletarProfessor from "../components/Crud/Delete/DeletarProfessor";
+import VizualizarProfessores from "../components/Crud/Professor/Get/VizualizarProfessores";
+import AdicionarProfessor from "../components/Crud/Professor/Post/AdicionarProfessor";
+import DeletarProfessor from "../components/Crud/Professor/Delete/DeletarProfessor";
 
 import { useLocation } from 'react-router-dom';
-import Update from "../components/Crud/Update/Update";
-import InformationUpdate from "../components/Crud/Update/InformationUpdate";
+import Update from "../components/Crud/Professor/Update/Update";
+import InformationUpdate from "../components/Crud/Professor/Update/InformationUpdate";
+import GetDisciplinas from "../components/Crud/Disciplinas/GET/GetDisciplinas";
+import AdicionarDisciplina from "../components/Crud/Disciplinas/POST/AdicionarDisciplina";
+import DeletarDisciplina from "../components/Crud/Disciplinas/DELETE/DeletarDisciplina";
 
 function Home(){
     let [loading, setLoading] = useState(false);
@@ -17,7 +20,7 @@ function Home(){
     const {user} = location.state || {}
 
     const token = localStorage.getItem('token')
-    const [selected, setSelected] = useState('vizualizar')
+    const [selected, setSelected] = useState('disciplina')
 
     const [informationsUpdate,setInformationUpdate] = useState(false) 
     const [infoUpdate, setInfoUpdate] = useState('')
@@ -64,14 +67,14 @@ function Home(){
                                 <AdicionarProfessor token={token}/>
                             ) : selected === 'deletar' ? (
                                 <DeletarProfessor token={token}/>
-                            ) : selected=== 'atualizar' && (
+                            ) : selected=== 'atualizar' ? (
                 
                                 (informationsUpdate)? 
 
                                 // logica para trocar de pesquisa para pagina onde contem as informações para serem atualizadas
                                 <InformationUpdate token={token} infoUpdate={infoUpdate}/> : <Update token={token} setInfoUpdate={setInfoUpdate} setInformationUpdate={setInformationUpdate} informationUpdate={informationsUpdate}/>
                              
-                            )}
+                            ) : (<DeletarDisciplina/>)}
                         </div>
 
             

@@ -1,7 +1,7 @@
-import TextoPadrao from "../textoPadrao"
-import TituloCrud from "../TituloCrud"
-import Input from "../Input"
-import Button from "../../Button"
+import TextoPadrao from "../../textoPadrao"
+import TituloCrud from "../../TituloCrud"
+import Input from "../../Input"
+import Button from "../../../Button"
 import { useState, useEffect } from "react"
 import GetProfessor from "../Get/GetProfessor"
 
@@ -10,20 +10,20 @@ import iconEdit from "./iconEdit.svg"
 // import iconBack from "../../icons/icon-back.svg"
 
 import { ToastContainer, } from 'react-toastify';
-import { notifySuccess, notifyError } from '../../Toasts'
+import { notifySuccess, notifyError } from '../../../Toasts'
 import { Modal } from 'react-responsive-modal';
 
-import TitleModal from "../../Modal/TitleModal"
-import ConteudoModalOutros from "../../Modal/ConteudoModalOutros"
-import ButtonCancelar from "../../ButtonCancelar"
-import ButtonConfirmacaoModal from "../../ButtonConfirmacaoModal"
+import TitleModal from "../../../Modal/TitleModal"
+import ConteudoModalOutros from "../../../Modal/ConteudoModalOutros"
+import ButtonCancelar from "../../../ButtonCancelar"
+import ButtonConfirmacaoModal from "../../../ButtonConfirmacaoModal"
 import SyncLoader   from "react-spinners/SyncLoader";
-import NotFound from "../NotFound"
+import NotFound from "../../NotFound"
 
 
 
 
-function DeletarProfessor({token,setInformationUpdate, informationUpdate, setInfoUpdate}){
+function Update({token,setInformationUpdate, informationUpdate, setInfoUpdate}){
 
     const [valorInput, setValorInput] = useState('') 
     const [professores, setProfessores] = useState('')
@@ -80,26 +80,6 @@ function DeletarProfessor({token,setInformationUpdate, informationUpdate, setInf
         })
     }
 
-    function deletarProfessor(idProfessor, nomeProfessor) {
-        fetch(`http://127.0.0.1:8000/api/deletar/${idProfessor}`, {
-            method: 'DELETE',
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`}
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro: ${response.status}`);
-            }
-            notifySuccess(`Professor ${nomeProfessor} removido com Sucesso`);
-            onCloseModal();
-        });
-    
-        if (professores.length === 1) {
-            setResultado(false);
-            setNotFound(false); 
-            carregando()
-        }
-    }
     return(
         <section className="px-28 py-16 mx-64">
 
@@ -132,7 +112,7 @@ function DeletarProfessor({token,setInformationUpdate, informationUpdate, setInf
             {(!resultado && !notFound) ? (
                 <div>
 
-                    <TituloCrud title={'Deletar Professor'}/>    
+                    <TituloCrud title={'Atualizar Professor'}/>    
 
                     <div className="mt-10 w-[450px] gap-y-7 flex flex-col">
                         <TextoPadrao content={'insira o ID ou o nome do professor'} tamanho={true}/>
@@ -154,7 +134,7 @@ function DeletarProfessor({token,setInformationUpdate, informationUpdate, setInf
                                 <GetProfessor key={index} nome={professor.nome} ni={professor.ni} cargo={professor.cargo} email={professor.email} imagem={professor.imagem}
                                  TemAcao={true} labelButton={'atualizar'} iconButton={iconEdit} acaoButton={()=>{
                                     setInformationUpdate(!informationUpdate)
-                                    setInfoUpdate(professores)
+                                    setInfoUpdate(professores[index])
                                 }} idProfessor={professor.id} />     
                             ))
                         }
@@ -186,4 +166,4 @@ function DeletarProfessor({token,setInformationUpdate, informationUpdate, setInf
     )
 }
 
-export default DeletarProfessor
+export default Update

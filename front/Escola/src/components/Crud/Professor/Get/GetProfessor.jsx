@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import arrowGet from "./arrowGet.svg"
 import DadoProfessor from "./DadoProfessor"
 import { use } from "react"
-import ButtonCrud from "../ButtonCrud"
+import ButtonCrud from "../../ButtonCrud"
 
 function GetProfessor({nome, ni, email, cargo, imagem, TemAcao, labelButton, iconButton, acaoButton, idProfessor, setId}){
 

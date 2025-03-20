@@ -1,14 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
-from ..models import Professor
-from .serializer import ProfessorSerializer, UsuarioSerializer
+from ..models import Professor, Disciplinas
+from .serializer import ProfessorSerializer, UsuarioSerializer, DisciplinasSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
-from .filters import FiltroProfessorNome
+from .filters import FiltroProfessorNome, FiltroDisciplinas
 from django_filters.views import FilterView
 import os
 from django.conf import settings
@@ -146,3 +146,56 @@ class LoginUser(APIView):
  
     
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+# DISCIPLINAS 
+class VizualizarDisciplinas(APIView):
+
+    # colocar tratativa de erro 
+    def get(self, request):
+
+        disciplinas = Disciplinas.objects.all()
+        serializer = DisciplinasSerializer(disciplinas, many=True)
+        return Response(serializer.data)
+
+    
+class AdicionarDisciplina(APIView):
+
+    def post(self, request):
+        serializer = DisciplinasSerializer(data=request.data)
+
+        if serializer.is_valid():
+
+            disciplina_nova = serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+
+class AtualizarDisciplina(APIView):
+    
+    def patch(self, request, pk):
+        disciplinas = Disciplinas.objects.get(pk=pk)
+        serializer = DisciplinasSerializer(disciplinas, data=request.data, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+        
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+class DeletarDisciplina(APIView):
+    def delete(self, request, pk):
+        disciplina = Disciplinas.objects.get(pk=pk)
+
+        if disciplina:
+            disciplina.delete()
+            return Response(status=status.HTTP_200_OK)
+        
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+class FiltroDisciplina(APIView):
+
+    def get(self,request):
+        filter = FiltroDisciplinas(request.GET, queryset=Disciplinas.objects.all())
+        serializer = DisciplinasSerializer(filter.qs, many=True)
+        return Response(serializer.data)

@@ -1,0 +1,13 @@
+Disciplina: 
+    -codigo / string
+    -disciplina / string
+    -Carga horária / int
+
+Ambientes:
+    -
+
+Curso:
+
+
+
+tratativa de erro em get disciplinas

@@ -1,23 +1,23 @@
-import TituloCrud from "../TituloCrud"
-import iconCamera from "../../icons/icon-camera.svg"
-import Input from "../Input"
-import '../../../index.css'
-import Button2 from "../../Button"
+import TituloCrud from "../../TituloCrud"
+import iconCamera from "../../../icons/icon-camera.svg"
+import Input from "../../Input"
+import '../../../../index.css'
+import Button2 from "../../../Button"
 import { useState } from "react"
 import 'react-responsive-modal/styles.css';
 
 // import "../../App.jsx"
 
 import { ToastContainer, } from 'react-toastify';
-import { notifySuccess, notifyError } from '../../Toasts'
+import { notifySuccess, notifyError } from '../../../Toasts'
 import { Modal } from 'react-responsive-modal';
 
 
-import Button from '../../Button';
-import TitleModal from "../../Modal/TitleModal"
-import ConteudoModal from "../../Modal/ConteudoModal"
-import ButtonCancelar from "../../ButtonCancelar"
-import ButtonConfirmacaoModal from "../../ButtonConfirmacaoModal"
+import Button from '../../../Button';
+import TitleModal from "../../../Modal/TitleModal"
+import ConteudoModal from "../../../Modal/ConteudoModal"
+import ButtonCancelar from "../../../ButtonCancelar"
+import ButtonConfirmacaoModal from "../../../ButtonConfirmacaoModal"
 
 
 function InformationUpdate({token, infoUpdate}){

@@ -1,29 +1,29 @@
-import TextoPadrao from "../textoPadrao"
-import TituloCrud from "../TituloCrud"
-import Input from "../Input"
-import Button from "../../Button"
+import TextoPadrao from "../../textoPadrao"
+import TituloCrud from "../../TituloCrud"
+import Input from "../../Input"
+import Button from "../../../Button"
 import { useState, useEffect } from "react"
 import GetProfessor from "../Get/GetProfessor"
 
 // icons 
 import iconDeletar from "./icon-trash.svg"
-import iconBack from "../../icons/icon-back.svg"
+import iconBack from "../../../icons/icon-back.svg"
 
 import { ToastContainer, } from 'react-toastify';
-import { notifySuccess, notifyError } from '../../Toasts'
+import { notifySuccess, notifyError } from '../../../Toasts'
 import { Modal } from 'react-responsive-modal';
 
-import TitleModal from "../../Modal/TitleModal"
-import ConteudoModalOutros from "../../Modal/ConteudoModalOutros"
-import ButtonCancelar from "../../ButtonCancelar"
-import ButtonConfirmacaoModal from "../../ButtonConfirmacaoModal"
+import TitleModal from "../../../Modal/TitleModal"
+import ConteudoModalOutros from "../../../Modal/ConteudoModalOutros"
+import ButtonCancelar from "../../../ButtonCancelar"
+import ButtonConfirmacaoModal from "../../../ButtonConfirmacaoModal"
 import SyncLoader   from "react-spinners/SyncLoader";
-import NotFound from "../NotFound"
+import NotFound from "../../NotFound"
 
 
 
 
-function Update({token}){
+function DeletarProfessor({token}){
 
     const [valorInput, setValorInput] = useState('') 
     const [professores, setProfessores] = useState('')
@@ -199,4 +199,4 @@ function Update({token}){
     )
 }
 
-export default Update
+export default DeletarProfessor

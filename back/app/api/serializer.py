@@ -1,11 +1,16 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from ..models import Professor
+from ..models import Professor, Disciplinas
 from django.contrib.auth.hashers import make_password
 
 class ProfessorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor
+        fields = '__all__'
+
+class DisciplinasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Disciplinas
         fields = '__all__'
 
 class UsuarioSerializer(serializers.ModelSerializer):

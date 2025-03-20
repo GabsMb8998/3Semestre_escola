@@ -9,3 +9,8 @@ class Professor(models.Model):
     email = models.EmailField(max_length=100)
     cargo = models.CharField(max_length=20)
     imagem = models.ImageField(upload_to=upload_to, null=True, blank=True)
+
+class Disciplinas(models.Model):
+    codigo = models.CharField(max_length=10)
+    disciplinas = models.CharField(max_length=30)
+    aulas = models.IntegerField()
