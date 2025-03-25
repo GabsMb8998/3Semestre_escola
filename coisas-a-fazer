@@ -11,3 +11,6 @@ Curso:
 
 
 tratativa de erro em get disciplinas
+
+no update adicionar pop up caso não tenha sido feita nenhuma alteração
+ao fazer update, remover a imagem antiga

@@ -10,13 +10,6 @@ import iconEdit from "./iconEdit.svg"
 // import iconBack from "../../icons/icon-back.svg"
 
 import { ToastContainer, } from 'react-toastify';
-import { notifySuccess, notifyError } from '../../../Toasts'
-import { Modal } from 'react-responsive-modal';
-
-import TitleModal from "../../../Modal/TitleModal"
-import ConteudoModalOutros from "../../../Modal/ConteudoModalOutros"
-import ButtonCancelar from "../../../ButtonCancelar"
-import ButtonConfirmacaoModal from "../../../ButtonConfirmacaoModal"
 import SyncLoader   from "react-spinners/SyncLoader";
 import NotFound from "../../NotFound"
 
@@ -67,7 +60,6 @@ function Update({token,setInformationUpdate, informationUpdate, setInfoUpdate}){
 
         }).then(data=>{
       
-
             if (data.length == 0){
                 setNotFound(true)
                 setResultado(false)

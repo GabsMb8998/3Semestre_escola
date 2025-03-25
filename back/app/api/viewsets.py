@@ -174,6 +174,7 @@ class AdicionarDisciplina(APIView):
 class AtualizarDisciplina(APIView):
     
     def patch(self, request, pk):
+        
         disciplinas = Disciplinas.objects.get(pk=pk)
         serializer = DisciplinasSerializer(disciplinas, data=request.data, partial=True)
         

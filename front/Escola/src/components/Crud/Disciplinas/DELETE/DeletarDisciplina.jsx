@@ -65,7 +65,7 @@ function DeletarDisciplina({token}){
             return response.json()
 
         }).then(data=>{
-            console.log(data)
+            console.log(data, 'data')
 
             if (data.length == 0){
                 setNotFound(true)
@@ -92,13 +92,13 @@ function DeletarDisciplina({token}){
             }
             notifySuccess(`Disciplina deletada com sucesso`);
             onCloseModal();
+            PesquisaPorId()
         });
     
         if (disciplinas.length === 1) {
             setResultado(false);
             setNotFound(false); 
             carregando()
-            PesquisaPorId()
         }
     }
     return(

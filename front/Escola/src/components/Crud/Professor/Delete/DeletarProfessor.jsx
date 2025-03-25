@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import GetProfessor from "../Get/GetProfessor"
 
 // icons 
-import iconDeletar from "./icon-trash.svg"
+import iconDeletar from "../../../../images/icon-trash.svg"
 import iconBack from "../../../icons/icon-back.svg"
 
 import { ToastContainer, } from 'react-toastify';
