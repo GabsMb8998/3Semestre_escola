@@ -43,7 +43,6 @@ class AdicionarProfessor(APIView):
         serializer = ProfessorSerializer(data=request.data)
 
         if serializer.is_valid():
-
             Professor_novo = serializer.save()
             return Response(status=status.HTTP_201_CREATED)
 
@@ -60,7 +59,6 @@ class DeletarProfessor(APIView):
             caminho_imagem = os.path.join(settings.MEDIA_ROOT, professor.imagem.name)
             if os.path.exists(caminho_imagem):
                 os.remove(caminho_imagem)
-
                 pasta_imagem = os.path.dirname(caminho_imagem)
                 if not os.listdir(pasta_imagem):
                     os.rmdir(pasta_imagem)
@@ -96,8 +94,16 @@ class AtualizarProfessor(APIView):
 
     def patch(self, request, pk):
         professor = self.get_teacher(pk)
+        caminho_imagem = os.path.join(settings.MEDIA_ROOT, professor.imagem.name)
         serializer = ProfessorSerializer(professor, data=request.data, partial=True)
         if serializer.is_valid():
+
+            if os.path.exists(caminho_imagem):
+                os.remove(caminho_imagem)
+                pasta_imagem = os.path.dirname(caminho_imagem)
+                if not os.listdir(pasta_imagem):
+                    os.rmdir(pasta_imagem)
+            
             serializer.save()
             return Response(status=status.HTTP_200_OK)
         

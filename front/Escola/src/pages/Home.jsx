@@ -8,31 +8,32 @@ import AdicionarProfessor from "../components/Crud/Professor/Post/AdicionarProfe
 import DeletarProfessor from "../components/Crud/Professor/Delete/DeletarProfessor";
 
 import { useLocation } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom'
 import Update from "../components/Crud/Professor/Update/Update";
-import InformationUpdate from "../components/Crud/Professor/Update/InformationUpdate";
-import GetDisciplinas from "../components/Crud/Disciplinas/GET/GetDisciplinas";
-import AdicionarDisciplina from "../components/Crud/Disciplinas/POST/AdicionarDisciplina";
-import DeletarDisciplina from "../components/Crud/Disciplinas/DELETE/DeletarDisciplina";
+
+import CardHome from "../components/CardHome";
+import { IconProfessoresCard } from "../images/IconProfessoresCard";
+import TituloCrud from "../components/Crud/TituloCrud";
+import { IconDisciplinaCard } from "../images/IconDisciplinaCard";
 
 function Home(){
+
+    const navigate = useNavigate()
+
     let [loading, setLoading] = useState(false);
     const location = useLocation();
     const {user} = location.state || {}
 
     const token = localStorage.getItem('token')
-    const [selected, setSelected] = useState('disciplina')
-
-    const [informationsUpdate,setInformationUpdate] = useState(false) 
-    const [infoUpdate, setInfoUpdate] = useState('')
-
-    console.log(user.user.username, 'ahsvdha')
+    const [selected, setSelected] = useState('home')
+    console.log(user)
 
     useEffect(()=>{
         setLoading(true)
         setTimeout(()=>{
             setLoading(false)
             
-        },2500)
+        },1500)
     }, [])
 
     console.log(selected)
@@ -55,26 +56,29 @@ function Home(){
                             data-testid="loader"/>
                     </div>
                 ) : (
+
                     <div className="flex">
-                        <Sidebar username={user.user.username}/>
-                        <div className="w-full">
-                            <Header selected={selected} setSelected={setSelected}/>
 
-                            {selected === 'vizualizar' ? (
-                                <VizualizarProfessores token={token}/>
+                        <Sidebar username={user.user.username} selected={selected} setSelected={setSelected}/>
+                        
+                        <div className="w-full h-screen ml-[300px] flex flex-col items-center justify-center"> 
 
-                            ): selected === 'adicionar' ? (
-                                <AdicionarProfessor token={token}/>
-                            ) : selected === 'deletar' ? (
-                                <DeletarProfessor token={token}/>
-                            ) : selected=== 'atualizar' ? (
-                
-                                (informationsUpdate)? 
+                            <div className="px-50 mb-30 w-full">
+                            <h1 className="text-[#7C7C7C] text-4xl font-medium mb-24">Api Professores</h1>
 
-                                // logica para trocar de pesquisa para pagina onde contem as informações para serem atualizadas
-                                <InformationUpdate token={token} infoUpdate={infoUpdate}/> : <Update token={token} setInfoUpdate={setInfoUpdate} setInformationUpdate={setInformationUpdate} informationUpdate={informationsUpdate}/>
-                             
-                            ) : (<DeletarDisciplina/>)}
+                                <div className="flex justify-between items-center ">
+                                    <CardHome label={'Professores'} Icon={<IconProfessoresCard/>} onClick={()=>{
+                                        setSelected('professores')
+                                        navigate('/professores')
+                                    }} />
+                                    <CardHome label={'Disciplinas'} Icon={<IconDisciplinaCard/>} onClick={()=> {
+                                        setSelected('disciplina')
+                                        navigate('/disciplinas', {state: {selected: selected, user: user, setSelected:setSelected}})
+                                    }}/>
+
+                                </div>
+                            </div>
+
                         </div>
 
             

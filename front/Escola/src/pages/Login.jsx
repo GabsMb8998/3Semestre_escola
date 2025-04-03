@@ -6,7 +6,7 @@ import iconUser from "../images/icon-user.svg"
 import iconSenha from "../images/icon-senha.svg"
 
 import { useEffect, useState } from 'react'
-import { data, useNavigate } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom'
 import Titulo from '../components/Login/Titulo'
 import LabelTitle from '../components/Login/LabelTitle'
 import ButtonLogin from '../components/Login/ButtonLogin'
